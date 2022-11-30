@@ -5,8 +5,6 @@ import java.util.Optional;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import com.son.librarymanagementsystem.model.Category;
 import com.son.librarymanagementsystem.repository.CategoryRepository;
 import com.son.librarymanagementsystem.validation.annotation.UniqueCategory;

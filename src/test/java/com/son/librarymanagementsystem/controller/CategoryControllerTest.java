@@ -10,7 +10,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -20,7 +19,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.son.librarymanagementsystem.dto.CategoryDto;
 import com.son.librarymanagementsystem.model.Category;
@@ -69,7 +67,7 @@ public class CategoryControllerTest {
 	}
 	
 	@Test
-	void whenInvalidCategoryThenReturn400() throws Exception {
+	void whenDuplicateCategoryNameThenReturn400() throws Exception {
 		Category saveCategory = new Category();
 		saveCategory.setCategoryName("Comic");
 		
@@ -85,6 +83,5 @@ public class CategoryControllerTest {
 
 		mockMvc.perform(request)
 				.andExpect(status().isBadRequest());
-				
 	}
 }

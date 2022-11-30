@@ -1,14 +1,19 @@
 package com.son.librarymanagementsystem.model;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -43,4 +48,20 @@ public class Book {
 				CascadeType.PERSIST, CascadeType.REFRESH})
 	@JoinColumn(name = "category_id")
 	private Category category;
+	
+	@ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, 
+						CascadeType.PERSIST, CascadeType.REFRESH},
+				fetch = FetchType.LAZY)
+	@JoinTable(name = "book_author", 
+				joinColumns = @JoinColumn(name = "book_id"),
+				inverseJoinColumns = @JoinColumn(name = "author_id"))
+	private Set<Author> authors;
+	
+	public void addAuthor(Author author) {
+		if (authors == null) 
+			authors = new HashSet<>();
+		
+		authors.add(author);
+		author.getBooks().add(this);
+	}
 }

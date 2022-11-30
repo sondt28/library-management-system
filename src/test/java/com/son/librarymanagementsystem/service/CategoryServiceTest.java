@@ -1,6 +1,9 @@
 package com.son.librarymanagementsystem.service;
 
 import static org.mockito.Mockito.when;
+
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.times;
@@ -40,5 +43,29 @@ public class CategoryServiceTest {
 		assertEquals("Manga", dto.getCategoryName());
 		
 		verify(repository, times(1)).save(any(Category.class));
+	}
+	
+	@Test
+	void shouldReturnListCategoryDtoWithTwoRecord() {
+		Category category1 = new Category();
+		category1.setCategoryName("One shot");
+		repository.save(category1);
+		
+		Category category2 = new Category();
+		category2.setCategoryName("Manga");
+		repository.save(category2);
+		
+		CategoryDto categoryDto1 = new CategoryDto();
+		categoryDto1.setCategoryName("One shot");
+		
+		CategoryDto categoryDto2 = new CategoryDto();
+		categoryDto2.setCategoryName("Manga");
+		
+		when(repository.findAll()).thenReturn(List.of(category1, category2));
+		
+		List<CategoryDto> actual = service.findAllCategory();
+		
+		assertEquals(2, actual.size());
+		assertEquals("One shot", actual.get(0).getCategoryName());
 	}
 }
