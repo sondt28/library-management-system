@@ -12,7 +12,7 @@ public interface CategoryMapper {
 	
 	CategoryMapper INSTANCE = Mappers.getMapper(CategoryMapper.class);
 	
-	Category toModel(CategoryDto dto);
 	CategoryDto toDto(Category model);
+	Category toModel(CategoryDto dto);
 	CategoryWithBooksDto toCategoryDetailDto(Category model);
 }

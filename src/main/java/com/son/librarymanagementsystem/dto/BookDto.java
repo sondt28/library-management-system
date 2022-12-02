@@ -1,6 +1,7 @@
 package com.son.librarymanagementsystem.dto;
 
 import java.util.Date;
+import java.util.Set;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -20,5 +21,7 @@ public class BookDto {
 	private Date publicationDate;
 	
 	private int copiesOwned;
+	
+	private Set<AuthorDto> authors;
 		
 }

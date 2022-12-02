@@ -35,6 +35,13 @@ public class CategoryController {
 		return new ResponseEntity<>(dtos, HttpStatus.OK);
 	}
 	
+	@GetMapping("{categoryId}")
+	public Object findCategoryById(@PathVariable("categoryId") Integer categoryId) {
+		CategoryWithBooksDto dtos = service.findById(categoryId);
+		
+		return new ResponseEntity<>(dtos, HttpStatus.OK);
+	}
+	
 	@PostMapping
 	public Object saveCategory(@Valid @RequestBody CategoryDto dto, BindingResult errors) {
 		
