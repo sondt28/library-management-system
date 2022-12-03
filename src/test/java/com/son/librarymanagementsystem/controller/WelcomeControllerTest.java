@@ -1,6 +1,8 @@
 package com.son.librarymanagementsystem.controller;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.junit.jupiter.api.Test;
@@ -22,6 +24,8 @@ public class WelcomeControllerTest {
 	void welcome() throws Exception {
 		RequestBuilder request = MockMvcRequestBuilders
 								.get("/welcome")
+								.with(csrf())
+								.with(user("admin").password("1234"))
 								.accept(MediaType.APPLICATION_JSON);
 		
 		MvcResult result = mockMvc.perform(request)

@@ -2,6 +2,7 @@ package com.son.librarymanagementsystem.model;
 
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -15,6 +16,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -56,6 +58,12 @@ public class Book {
 				joinColumns = @JoinColumn(name = "book_id"),
 				inverseJoinColumns = @JoinColumn(name = "author_id"))
 	private Set<Author> authors;
+	
+	@OneToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE,
+						CascadeType.PERSIST,CascadeType.REFRESH},
+				fetch = FetchType.LAZY,
+				mappedBy = "book_id")
+	private List<Loan> loans;
 	
 	public void addAuthor(Author author) {
 		if (authors == null) 

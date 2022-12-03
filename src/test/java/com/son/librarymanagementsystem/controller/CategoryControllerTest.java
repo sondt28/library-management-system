@@ -4,6 +4,8 @@ import static org.mockito.Mockito.when;
 import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.verify;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -54,7 +56,8 @@ public class CategoryControllerTest {
 		
 		RequestBuilder request = MockMvcRequestBuilders
 								.post("/api/v1/categories")
-//								.accept(MediaType.APPLICATION_JSON)
+								.with(csrf())
+								.with(user("admin").password("1234"))
 								.contentType(MediaType.APPLICATION_JSON)
 								.content(objectMapper.writeValueAsString(category));
 		
@@ -78,6 +81,8 @@ public class CategoryControllerTest {
 		
 		RequestBuilder request = MockMvcRequestBuilders
 								.post("/api/v1/categories")
+								.with(csrf())
+								.with(user("admin").password("1234"))
 								.contentType(MediaType.APPLICATION_JSON)
 								.content(objectMapper.writeValueAsString(category));
 

@@ -24,5 +24,4 @@ public class AuthorController {
 		
 		return new ResponseEntity<>(newDto, HttpStatus.CREATED);
 	}
-
 }

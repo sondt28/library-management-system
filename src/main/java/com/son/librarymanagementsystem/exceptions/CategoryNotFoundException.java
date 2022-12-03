@@ -2,6 +2,8 @@ package com.son.librarymanagementsystem.exceptions;
 
 public class CategoryNotFoundException extends RuntimeException {
 
+	private static final long serialVersionUID = 1L;
+
 	public CategoryNotFoundException(String message, Throwable cause) {
 		super(message, cause);
 	}

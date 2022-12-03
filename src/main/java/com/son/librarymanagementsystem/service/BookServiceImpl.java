@@ -1,5 +1,7 @@
 package com.son.librarymanagementsystem.service;
 
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -59,8 +61,9 @@ public class BookServiceImpl implements BookService {
 
 	@Override
 	public Page<BookDto> findAllBookWithPagination(int offset, int pageSize) {
+		Pageable pageable = PageRequest.of(offset - 1, pageSize);
 		
-		Page<Book> books = repository.findAll(PageRequest.of(offset, pageSize));
+		Page<Book> books = repository.findAll(pageable);
 		
 		Page<BookDto> bookDtos = books.map(t -> BookMapper.INSTANCE.toDto(t));
 		
@@ -68,13 +71,14 @@ public class BookServiceImpl implements BookService {
 	}
 
 	@Override
-	public Page<Book> findByTitle(String title, int offset, int pageSize) {
+	public Page<BookDto> findByTitle(String title, int offset, int pageSize) {
 		
-		Pageable pageable = PageRequest.of(offset, pageSize);
+		Pageable pageable = PageRequest.of(offset - 1, pageSize);
 		
 		Page<Book> book = repository.findByTitle(title, pageable);
+		Page<BookDto> bookDtos = book.map(t -> BookMapper.INSTANCE.toDto(t));
 		
-		return book;
+		return bookDtos;
 	}
 
 	@Override
@@ -86,10 +90,33 @@ public class BookServiceImpl implements BookService {
 		Pageable pageable = PageRequest.of(offset - 1, pageSize);
 		
 		Page<Book> books = repository.findByCategory(category, pageable);
-		
 		Page<BookDto> bookDtos = books.map(t -> BookMapper.INSTANCE.toDto(t));
 		
 		return bookDtos;
 	}
-	
+
+	@Override
+	public Page<BookDto> findByPublicationDate(Date publicationDate, int offset, int pageSize) {
+		
+		Pageable pageable = PageRequest.of(offset - 1, pageSize);
+		
+		Page<Book> books = repository.findByPublicationDate(publicationDate, pageable);
+		Page<BookDto> bookDtos = books.map(t -> BookMapper.INSTANCE.toDto(t));
+		
+		return bookDtos;
+	}
+
+	@Override
+	public Page<BookDto> findByAuthor(String firstName, String lastName, int offset, int pageSize) {
+		
+		Author author = authorRepository.findByFirstNameAndLastName(firstName, lastName)
+					.orElseThrow(() -> new AuthorNotFoundException("Author not found!"));
+		
+		Pageable pageable = PageRequest.of(offset - 1, pageSize);
+		
+		Page<Book> books = repository.findByAuthors(author, pageable);
+		Page<BookDto> dtos = books.map(t -> BookMapper.INSTANCE.toDto(t));
+		
+		return dtos;
+	}
 }

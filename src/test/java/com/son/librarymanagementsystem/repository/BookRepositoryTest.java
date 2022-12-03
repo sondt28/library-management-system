@@ -24,6 +24,8 @@ public class BookRepositoryTest {
 	@Autowired
 	private CategoryRepository categoryRepository;
 
+	private Pageable pageable = PageRequest.of(0, 5);
+	
 	private Book book;
 	
 	private Category category;
@@ -48,10 +50,25 @@ public class BookRepositoryTest {
 	@Test
 	void shouldReturnPageBookByCategoryId() {
 		repository.save(book);
-		Pageable pageable = PageRequest.of(1, 3);
+		
 		Page<Book> page = repository.findByCategory(category, pageable);
 		
 		assertNotNull(page);
+		assertThat(page.getContent().size()).isEqualTo(1);
+		assertThat(page.getContent().get(0).getCategory()).isEqualTo(category);
 		assertThat(page.getTotalPages()).isEqualTo(1);
+	}
+	
+	@Test
+	void shouldReturnPageBookByTitle() {
+		repository.save(book);
+		
+		Page<Book> page = repository.findByTitle("One Piece", pageable);
+		
+		assertNotNull(page);
+		assertThat(page.getContent().size()).isEqualTo(1);
+		assertEquals("One Piece", page.getContent().get(0).getTitle());
+		assertEquals(1, page.getTotalPages());
+		assertEquals(5, page.getSize());
 	}
 }

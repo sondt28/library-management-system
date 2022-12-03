@@ -1,5 +1,6 @@
 package com.son.librarymanagementsystem.model;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -44,5 +45,5 @@ public class Author {
 	@JoinTable(name = "book_author", 
 			   joinColumns = @JoinColumn(name = "author_id"),
 			   inverseJoinColumns = @JoinColumn(name = "book_id"))
-	private Set<Book> books;
+	private Set<Book> books = new HashSet<>();
 }

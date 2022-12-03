@@ -14,21 +14,21 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.son.librarymanagementsystem.dto.BookDto;
 import com.son.librarymanagementsystem.dto.BookWithAuthorsDto;
-import com.son.librarymanagementsystem.dto.CategoryWithBooksDto;
 import com.son.librarymanagementsystem.service.BookService;
 
 @RestController
 @RequestMapping("/api/v1/books")
 public class BookController {
 
+	private final int PAGE_SIZE = 5;
+	
 	@Autowired
 	private BookService service;
 	
-	@GetMapping("/{offset}")
+	@GetMapping("find-all/{offset}")
 	public Object findAllBookWithPage(@PathVariable("offset") Integer offset) {
-		int pageSize = 5;
 		
-		Page<BookDto> dtoPage = service.findAllBookWithPagination(offset, pageSize);
+		Page<BookDto> dtoPage = service.findAllBookWithPagination(offset, PAGE_SIZE);
 		
 		return new ResponseEntity<>(dtoPage, HttpStatus.OK);
 	}
@@ -37,9 +37,7 @@ public class BookController {
 	public Object findBooksByCategoryId(@PathVariable("categoryId") Integer categoryId,
 										@PathVariable("offset") Integer offset) {
 		
-		int pageSize = 5;
-		
-		Page<BookDto> dtoPage = service.findByCategory(categoryId, offset, pageSize);
+		Page<BookDto> dtoPage = service.findByCategory(categoryId, offset, PAGE_SIZE);
 		
 		return new ResponseEntity<>(dtoPage, HttpStatus.OK);
 	}
